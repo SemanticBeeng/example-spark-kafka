@@ -20,8 +20,8 @@ import sbt._
 object ProjectBuild extends Build {
 
   object Versions {
-    val kafka = "0.8.2.1"
-    val spark = "1.6.0"
+    val kafka = "0.10.2.1"
+    val spark = "2.1.1"
   }
 
   val projectName = "example-spark-kafka"
@@ -29,7 +29,7 @@ object ProjectBuild extends Build {
   val commonSettings = Seq(
     version := "1.0",
     organization := "http://mkuthan.github.io/",
-    scalaVersion := "2.11.7",
+    scalaVersion := "2.11.8",
     fork := true,
     parallelExecution in Test := false,
     cancelable in Global := true
@@ -55,7 +55,7 @@ object ProjectBuild extends Build {
 
     "org.apache.spark" %% "spark-core" % Versions.spark,
     "org.apache.spark" %% "spark-streaming" % Versions.spark,
-    "org.apache.spark" %% "spark-streaming-kafka" % Versions.spark,
+    "org.apache.spark" %% "spark-streaming-kafka" % "1.6.3"/*Versions.spark*/,
 
     "com.twitter" %% "bijection-avro" % "0.8.1",
     "com.twitter" %% "chill-avro" % "0.7.2",
