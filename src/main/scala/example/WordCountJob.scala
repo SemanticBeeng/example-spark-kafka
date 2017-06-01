@@ -17,6 +17,7 @@
 package example
 
 import org.apache.spark.storage.StorageLevel
+import org.apache.spark.streaming.dstream.DStream
 import org.mkuthan.spark._
 
 import scala.concurrent.duration.FiniteDuration

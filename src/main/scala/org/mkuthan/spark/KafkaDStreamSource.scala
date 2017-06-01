@@ -16,10 +16,8 @@
 
 package org.mkuthan.spark
 
-import kafka.serializer.DefaultDecoder
 import org.apache.spark.streaming.StreamingContext
 import org.apache.spark.streaming.dstream.DStream
-import org.apache.spark.streaming.kafka.KafkaUtils
 
 class KafkaDStreamSource(config: Map[String, String]) {
 
@@ -27,14 +25,19 @@ class KafkaDStreamSource(config: Map[String, String]) {
     val kafkaParams = config
     val kafkaTopics = Set(topic)
 
-    KafkaUtils.
-      createDirectStream[Array[Byte], Array[Byte], DefaultDecoder, DefaultDecoder](
-      ssc,
-      kafkaParams,
-      kafkaTopics).
-      map(dstream => KafkaPayload(Option(dstream._1), dstream._2))
-  }
+    /**
+      * source: https://jaceklaskowski.gitbooks.io/spark-streaming/spark-streaming-kafka-KafkaUtils.html
+      */
+    import org.apache.kafka.common.TopicPartition
+    import org.apache.spark.streaming.kafka010._
+    val offsets = Map(new TopicPartition(topic, 0) -> 2L)
 
+    val preferredHosts = LocationStrategies.PreferConsistent
+    val consumer = ConsumerStrategies.Subscribe[String, String](kafkaTopics, kafkaParams, offsets)
+
+    KafkaUtils.createDirectStream[String, String](ssc, preferredHosts, consumer).
+      map(dstream => KafkaPayload(Option(dstream.key().getBytes()), dstream.value().getBytes()))
+  }
 }
 
 object KafkaDStreamSource {
