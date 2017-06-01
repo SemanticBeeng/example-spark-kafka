@@ -33,10 +33,12 @@ class KafkaDStreamSource(config: Map[String, String]) {
     val offsets = Map(new TopicPartition(topic, 0) -> 2L)
 
     val preferredHosts = LocationStrategies.PreferConsistent
-    val consumer = ConsumerStrategies.Subscribe[String, String](kafkaTopics, kafkaParams, offsets)
+    type K = Array[Byte]
+    type V = Array[Byte]
+    val consumer = ConsumerStrategies.Subscribe[K, V](kafkaTopics, kafkaParams, offsets)
 
-    KafkaUtils.createDirectStream[String, String](ssc, preferredHosts, consumer).
-      map(dstream => KafkaPayload(Option(dstream.key().getBytes()), dstream.value().getBytes()))
+    KafkaUtils.createDirectStream[K, V](ssc, preferredHosts, consumer).
+      map(dstream => KafkaPayload(Option(dstream.key()), dstream.value()))
   }
 }
 

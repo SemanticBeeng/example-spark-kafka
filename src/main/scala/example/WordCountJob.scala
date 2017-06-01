@@ -17,7 +17,6 @@
 package example
 
 import org.apache.spark.storage.StorageLevel
-import org.apache.spark.streaming.dstream.DStream
 import org.mkuthan.spark._
 
 import scala.concurrent.duration.FiniteDuration
@@ -93,7 +92,6 @@ object WordCountJobConfig {
 
   import com.typesafe.config.{Config, ConfigFactory}
   import net.ceedubs.ficus.Ficus._
-  import net.ceedubs.ficus.readers.ArbitraryTypeReader.arbitraryTypeValueReader
 
   def apply(): WordCountJobConfig = apply(ConfigFactory.load)
 
