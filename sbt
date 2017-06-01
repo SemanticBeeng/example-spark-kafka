@@ -103,9 +103,9 @@ declare -r cms_opts="-XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC"
 declare -r jit_opts="-XX:ReservedCodeCacheSize=256m -XX:+TieredCompilation"
 declare -r default_jvm_opts_common="-Xms512m -Xmx1536m -Xss2m $jit_opts $cms_opts"
 declare -r noshare_opts="-Dsbt.global.base=project/.sbtboot -Dsbt.boot.directory=project/.boot -Dsbt.ivy.home=project/.ivy"
-declare -r latest_28="2.8.2"
-declare -r latest_29="2.9.3"
-declare -r latest_210="2.10.5"
+#declare -r latest_28="2.8.2"
+#declare -r latest_29="2.9.3"
+#declare -r latest_210="2.10.5"
 declare -r latest_211="2.11.8"
 declare -r latest_212="2.12.0"
 
@@ -300,9 +300,9 @@ runner with the -x option.
   -sbt-launch-repo <url>    repo url for downloading sbt launcher jar (default: $sbt_launch_repo)
 
   # scala version (default: as chosen by sbt)
-  -28                       use $latest_28
-  -29                       use $latest_29
-  -210                      use $latest_210
+  #  -28                       use $latest_28
+  #  -29                       use $latest_29
+  #  -210                      use $latest_210
   -211                      use $latest_211
   -212                      use $latest_212
   -scala-home <path>        use the scala build at the specified directory
@@ -379,9 +379,9 @@ process_args ()
                -D*) addJava "$1" && shift ;;
                -J*) addJava "${1:2}" && shift ;;
                -S*) addScalac "${1:2}" && shift ;;
-               -28) setScalaVersion "$latest_28" && shift ;;
-               -29) setScalaVersion "$latest_29" && shift ;;
-              -210) setScalaVersion "$latest_210" && shift ;;
+#               -28) setScalaVersion "$latest_28" && shift ;;
+#               -29) setScalaVersion "$latest_29" && shift ;;
+#              -210) setScalaVersion "$latest_210" && shift ;;
               -211) setScalaVersion "$latest_211" && shift ;;
               -212) setScalaVersion "$latest_212" && shift ;;
 

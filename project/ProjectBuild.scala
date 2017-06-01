@@ -22,6 +22,7 @@ object ProjectBuild extends Build {
   object Versions {
     val kafka = "0.10.2.1"
     val spark = "2.1.1"
+    val sparkStreamingKafka = "1.6.3"
   }
 
   val projectName = "example-spark-kafka"
@@ -55,7 +56,7 @@ object ProjectBuild extends Build {
 
     "org.apache.spark" %% "spark-core" % Versions.spark,
     "org.apache.spark" %% "spark-streaming" % Versions.spark,
-    "org.apache.spark" %% "spark-streaming-kafka" % "1.6.3"/*Versions.spark*/,
+    "org.apache.spark" %% "spark-streaming-kafka" % Versions.sparkStreamingKafka,
 
     "com.twitter" %% "bijection-avro" % "0.8.1",
     "com.twitter" %% "chill-avro" % "0.7.2",
