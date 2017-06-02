@@ -17,7 +17,6 @@
 package org.mkuthan.spark
 
 import org.apache.kafka.clients.producer.{Callback, ProducerRecord, RecordMetadata}
-import org.apache.spark.TaskContext
 import org.apache.spark.streaming.dstream.DStream
 
 class KafkaDStreamSink(dstream: DStream[KafkaPayload]) {
@@ -27,13 +26,14 @@ class KafkaDStreamSink(dstream: DStream[KafkaPayload]) {
       rdd.foreachPartition { records =>
         val producer = KafkaProducerFactory.getOrCreateProducer(config)
 
-//        // ugly hack, see: https://github.com/apache/spark/pull/5927
-        val context = TaskContext.get
-
-        val callback = new KafkaDStreamSinkExceptionHandler
-
+        //import org.apache.spark.TaskContext
+        //val context = TaskContext.get
         //import org.apache.log4j.Logger
         //@transient lazy val logger = Logger.getLogger(getClass)
+
+        // ugly hack, see: https://github.com/apache/spark/pull/5927
+        val callback = new KafkaDStreamSinkExceptionHandler
+
         //logger.debug(s"Send Spark partition: ${context.partitionId} to Kafka topic: $topic")
         val metadata = records.map { record =>
           callback.throwExceptionIfAny()
@@ -56,7 +56,6 @@ object KafkaDStreamSink {
   implicit def createKafkaDStreamSink(dstream: DStream[KafkaPayload]): KafkaDStreamSink = {
     new KafkaDStreamSink(dstream)
   }
-
 }
 
 
