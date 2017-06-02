@@ -72,7 +72,7 @@ object ProjectBuild extends Build {
   )
 
   val commonExcludeDependencies = Seq(
-    "org.slf4j" % "slf4j-log4j2"
+    "org.slf4j" % "slf4j-log4j12"
   )
 
   lazy val main = Project(projectName, base = file("."))
