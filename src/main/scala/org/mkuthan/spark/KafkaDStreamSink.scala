@@ -22,9 +22,6 @@ import org.apache.spark.streaming.dstream.DStream
 
 class KafkaDStreamSink(dstream: DStream[KafkaPayload]) {
 
-  import org.apache.log4j.Logger
-  @transient lazy val logger = Logger.getLogger(getClass)
-
   def sendToKafka(config: Map[String, String], topic: String): Unit = {
     dstream.foreachRDD { rdd =>
       rdd.foreachPartition { records =>
@@ -35,13 +32,15 @@ class KafkaDStreamSink(dstream: DStream[KafkaPayload]) {
 
         val callback = new KafkaDStreamSinkExceptionHandler
 
-        logger.debug(s"Send Spark partition: ${context.partitionId} to Kafka topic: $topic")
+        //import org.apache.log4j.Logger
+        //@transient lazy val logger = Logger.getLogger(getClass)
+        //logger.debug(s"Send Spark partition: ${context.partitionId} to Kafka topic: $topic")
         val metadata = records.map { record =>
           callback.throwExceptionIfAny()
           producer.send(new ProducerRecord(topic, record.key.orNull, record.value), callback)
         }.toList
 
-        logger.debug(s"Flush Spark partition: ${context.partitionId} to Kafka topic: $topic")
+        //logger.debug(s"Flush Spark partition: ${context.partitionId} to Kafka topic: $topic")
         metadata.foreach { metadata => metadata.get() }
 
         callback.throwExceptionIfAny()
