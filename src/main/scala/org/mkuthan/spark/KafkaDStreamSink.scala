@@ -17,7 +17,7 @@
 package org.mkuthan.spark
 
 import org.apache.kafka.clients.producer.{Callback, ProducerRecord, RecordMetadata}
-import org.apache.log4j.Logger
+//import org.apache.log4j.Logger
 import org.apache.spark.TaskContext
 import org.apache.spark.streaming.dstream.DStream
 
@@ -28,19 +28,19 @@ class KafkaDStreamSink(dstream: DStream[KafkaPayload]) {
       rdd.foreachPartition { records =>
         val producer = KafkaProducerFactory.getOrCreateProducer(config)
 
-        // ugly hack, see: https://github.com/apache/spark/pull/5927
+//        // ugly hack, see: https://github.com/apache/spark/pull/5927
         val context = TaskContext.get
-        val logger = Logger.getLogger(getClass)
-
+//        val logger = Logger.getLogger(getClass)
+//
         val callback = new KafkaDStreamSinkExceptionHandler
-
-        logger.debug(s"Send Spark partition: ${context.partitionId} to Kafka topic: $topic")
+//
+//        logger.debug(s"Send Spark partition: ${context.partitionId} to Kafka topic: $topic")
         val metadata = records.map { record =>
           callback.throwExceptionIfAny()
           producer.send(new ProducerRecord(topic, record.key.orNull, record.value), callback)
         }.toList
 
-        logger.debug(s"Flush Spark partition: ${context.partitionId} to Kafka topic: $topic")
+//        logger.debug(s"Flush Spark partition: ${context.partitionId} to Kafka topic: $topic")
         metadata.foreach { metadata => metadata.get() }
 
         callback.throwExceptionIfAny()

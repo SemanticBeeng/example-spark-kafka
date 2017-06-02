@@ -25,6 +25,8 @@ class WordCountKryoRegistration extends KryoRegistrator {
 
   override def registerClasses(kryo: Kryo): Unit = {
     kryo.register(classOf[KafkaPayloadStringCodec])
+    //kryo.register(classOf[KafkaPayload])
+    //kryo.register(classOf[KafkaDStreamSink])
 
     //
     // register avro specific records using twitter chill

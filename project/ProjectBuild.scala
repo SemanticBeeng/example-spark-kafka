@@ -60,6 +60,8 @@ object ProjectBuild extends Build {
 
     "com.twitter" %% "bijection-avro" % "0.8.1",
     "com.twitter" %% "chill-avro" % "0.7.2",
+    // fix for https://issues.apache.org/jira/browse/SPARK-15847
+    "org.apache.avro" % "avro" % "1.7.7",
 
     "com.typesafe" % "config" % "1.2.1",
     "net.ceedubs" %% "ficus" % "1.1.1",
