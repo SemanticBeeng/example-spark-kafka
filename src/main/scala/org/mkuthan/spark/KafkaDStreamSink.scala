@@ -41,9 +41,10 @@ class KafkaDStreamSink(dstream: DStream[KafkaPayload]) {
         }.toList
 
 //        logger.debug(s"Flush Spark partition: ${context.partitionId} to Kafka topic: $topic")
-        metadata.foreach { metadata => metadata.get() }
-
-        callback.throwExceptionIfAny()
+//        metadata.foreach { metadata => metadata.get() }
+//
+//        callback.throwExceptionIfAny()
+        Unit
       }
     }
   }
