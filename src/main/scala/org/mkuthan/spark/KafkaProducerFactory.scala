@@ -34,6 +34,8 @@ object KafkaProducerFactory {
     val defaultConfig = Map(
       "key.serializer" -> "org.apache.kafka.common.serialization.ByteArraySerializer",
       "value.serializer" -> "org.apache.kafka.common.serialization.ByteArraySerializer"
+//      "key.deserializer" -> "org.apache.kafka.common.serialization.ByteArrayDeserializer",
+//      "value.deserializer" -> "org.apache.kafka.common.serialization.ByteArrayDeserializer"
     )
 
     val finalConfig = defaultConfig ++ config
