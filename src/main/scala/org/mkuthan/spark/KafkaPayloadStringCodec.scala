@@ -27,7 +27,10 @@ class KafkaPayloadStringCodec extends Serializable {
   @transient lazy implicit private val stringInjection = StringCodec.utf8
 
   def decodeValue(payload: KafkaPayload): Option[String] = {
-    val decodedTry = Injection.invert[String, Array[Byte]](payload.value)
+
+    import KafkaDsl._
+
+    val decodedTry = Injection.invert[String, V](payload.value)
     decodedTry match {
       case Success(record) =>
         Some(record)
@@ -38,7 +41,10 @@ class KafkaPayloadStringCodec extends Serializable {
   }
 
   def encodeValue(value: String): KafkaPayload = {
-    val encoded = Injection[String, Array[Byte]](value)
+
+    import KafkaDsl._
+
+    val encoded = Injection[String, V](value)
     KafkaPayload(None, encoded)
   }
 

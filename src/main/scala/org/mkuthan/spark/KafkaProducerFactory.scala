@@ -27,9 +27,13 @@ object KafkaProducerFactory {
 
   private val logger = Logger.getLogger(getClass)
 
-  private val producers = mutable.Map[Map[String, String], KafkaProducer[Array[Byte], Array[Byte]]]()
+  import KafkaDsl._
 
-  def getOrCreateProducer(config: Map[String, String]): KafkaProducer[Array[Byte], Array[Byte]] = {
+  private val producers = mutable.Map[Map[String, String], KafkaProducer[K, V]]()
+
+  import KafkaDsl._
+
+  def getOrCreateProducer(config: Map[String, String]): KafkaProducer[K, V] = {
 
     val defaultConfig = Map(
       "key.serializer" -> "org.apache.kafka.common.serialization.ByteArraySerializer",
@@ -40,7 +44,7 @@ object KafkaProducerFactory {
 
     producers.getOrElseUpdate(finalConfig, {
       logger.info(s"Create Kafka producer , config: $finalConfig")
-      val producer = new KafkaProducer[Array[Byte], Array[Byte]](finalConfig)
+      val producer = new KafkaProducer[K, V](finalConfig)
 
       sys.addShutdownHook {
         logger.info(s"Close Kafka producer, config: $finalConfig")

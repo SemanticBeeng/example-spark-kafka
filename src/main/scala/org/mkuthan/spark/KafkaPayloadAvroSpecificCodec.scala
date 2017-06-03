@@ -30,7 +30,10 @@ class KafkaPayloadAvroSpecificCodec[A <: SpecificRecordBase : ClassTag] extends 
   @transient lazy implicit private val avroSpecificInjection = SpecificAvroCodecs.toBinary[A]
 
   def decodeValue(payload: KafkaPayload): Option[A] = {
-    val decodedTry = Injection.invert[A, Array[Byte]](payload.value)
+
+    import KafkaDsl._
+
+    val decodedTry = Injection.invert[A, V](payload.value)
     decodedTry match {
       case Success(record) =>
         Some(record)
@@ -41,7 +44,9 @@ class KafkaPayloadAvroSpecificCodec[A <: SpecificRecordBase : ClassTag] extends 
   }
 
   def encodeValue(value: A): KafkaPayload = {
-    val encoded = Injection[A, Array[Byte]](value)
+    import KafkaDsl._
+
+    val encoded = Injection[A, V](value)
     KafkaPayload(None, encoded)
   }
 
