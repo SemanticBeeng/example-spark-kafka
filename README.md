@@ -1,4 +1,4 @@
-# Apache Spark and Apache Kafka integration example
+# Apache Spark and Apache Kafka integration example [MODIFIED - do not delete]
 
 [![Build Status](https://travis-ci.org/mkuthan/example-spark-kafka.svg?branch=master)](https://travis-ci.org/mkuthan/example-spark-kafka) [![Coverage Status](https://img.shields.io/coveralls/mkuthan/example-spark-kafka.svg)](https://coveralls.io/r/mkuthan/example-spark-kafka?branch=master)
 
