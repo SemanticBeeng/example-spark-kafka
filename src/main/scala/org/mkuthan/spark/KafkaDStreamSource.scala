@@ -29,15 +29,13 @@ class KafkaDStreamSource(config: Map[String, String]) {
     /**
       * source: https://jaceklaskowski.gitbooks.io/spark-streaming/spark-streaming-kafka-KafkaUtils.html
       */
-    import org.apache.kafka.common.TopicPartition
     import org.apache.spark.streaming.kafka010._
     import org.mkuthan.spark.kafka.KafkaDsl._
-    val offsets = Map(new TopicPartition(topic, 0) -> 2L)
+    //import org.apache.kafka.common.TopicPartition
+    //val offsets = Map(new TopicPartition(topic, 0) -> 2L)
 
-    val locationStrategy = LocationStrategies.PreferConsistent
-    val consumer = ConsumerStrategies.Subscribe[K, V](kafkaTopics, kafkaParams, offsets)
-
-    KafkaUtils.createDirectStream[K, V](ssc, locationStrategy, consumer).
+    KafkaUtils.createDirectStream[K, V](ssc, LocationStrategies.PreferConsistent,
+      ConsumerStrategies.Subscribe[K, V](kafkaTopics, kafkaParams/*, offsets*/)).
       map(dstream => KafkaPayload(Option(dstream.key()), dstream.value()))
   }
 }

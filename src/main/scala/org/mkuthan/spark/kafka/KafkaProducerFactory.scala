@@ -36,8 +36,8 @@ object KafkaProducerFactory {
   def getOrCreateProducer(config: Map[String, String]): KafkaProducer[K, V] = {
 
     val defaultConfig = Map(
-      "key.serializer" -> "org.apache.kafka.common.serialization.ByteArraySerializer",
-      "value.serializer" -> "org.apache.kafka.common.serialization.ByteArraySerializer"
+      "key.serializer" -> classOf[org.apache.kafka.common.serialization.ByteArraySerializer].getName,
+      "value.serializer" -> classOf[org.apache.kafka.common.serialization.ByteArraySerializer].getName
     )
 
     val finalConfig = defaultConfig ++ config
