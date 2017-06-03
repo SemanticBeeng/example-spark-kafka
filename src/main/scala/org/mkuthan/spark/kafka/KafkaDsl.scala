@@ -1,4 +1,4 @@
-package org.mkuthan.spark
+package org.mkuthan.spark.kafka
 
 /**
   *

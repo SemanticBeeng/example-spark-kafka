@@ -18,6 +18,7 @@ package example
 
 import org.apache.spark.storage.StorageLevel
 import org.mkuthan.spark._
+import org.mkuthan.spark.kafka.KafkaPayloadStringCodec
 
 import scala.concurrent.duration.FiniteDuration
 

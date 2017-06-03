@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package org.mkuthan.spark
+package org.mkuthan.spark.kafka
 
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.log4j.Logger
@@ -27,11 +27,11 @@ object KafkaProducerFactory {
 
   private val logger = Logger.getLogger(getClass)
 
-  import KafkaDsl._
+  import org.mkuthan.spark.kafka.KafkaDsl._
 
   private val producers = mutable.Map[Map[String, String], KafkaProducer[K, V]]()
 
-  import KafkaDsl._
+  import org.mkuthan.spark.kafka.KafkaDsl._
 
   def getOrCreateProducer(config: Map[String, String]): KafkaProducer[K, V] = {
 

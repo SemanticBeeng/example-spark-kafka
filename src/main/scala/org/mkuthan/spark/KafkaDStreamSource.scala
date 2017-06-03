@@ -18,6 +18,7 @@ package org.mkuthan.spark
 
 import org.apache.spark.streaming.StreamingContext
 import org.apache.spark.streaming.dstream.DStream
+import org.mkuthan.spark.kafka.KafkaPayload
 
 class KafkaDStreamSource(config: Map[String, String]) {
 
@@ -30,7 +31,7 @@ class KafkaDStreamSource(config: Map[String, String]) {
       */
     import org.apache.kafka.common.TopicPartition
     import org.apache.spark.streaming.kafka010._
-    import KafkaDsl._
+    import org.mkuthan.spark.kafka.KafkaDsl._
     val offsets = Map(new TopicPartition(topic, 0) -> 2L)
 
     val locationStrategy = LocationStrategies.PreferConsistent

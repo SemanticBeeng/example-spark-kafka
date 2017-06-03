@@ -18,6 +18,7 @@ package org.mkuthan.spark
 
 import org.apache.kafka.clients.producer.{Callback, ProducerRecord, RecordMetadata}
 import org.apache.spark.streaming.dstream.DStream
+import org.mkuthan.spark.kafka.{KafkaPayload, KafkaProducerFactory}
 
 class KafkaDStreamSink(dstream: DStream[KafkaPayload]) {
 

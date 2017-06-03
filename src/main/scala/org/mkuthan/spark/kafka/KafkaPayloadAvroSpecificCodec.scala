@@ -14,23 +14,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package org.mkuthan.spark
+package org.mkuthan.spark.kafka
 
-import com.twitter.bijection.{Injection, StringCodec}
+import com.twitter.bijection.Injection
+import com.twitter.bijection.avro.SpecificAvroCodecs
+import org.apache.avro.specific.SpecificRecordBase
 import org.apache.log4j.Logger
 
+import scala.reflect.ClassTag
 import scala.util.{Failure, Success}
 
-class KafkaPayloadStringCodec extends Serializable {
+class KafkaPayloadAvroSpecificCodec[A <: SpecificRecordBase : ClassTag] extends Serializable {
 
   @transient lazy private val logger = Logger.getLogger(getClass)
-  @transient lazy implicit private val stringInjection = StringCodec.utf8
+  @transient lazy implicit private val avroSpecificInjection = SpecificAvroCodecs.toBinary[A]
 
-  def decodeValue(payload: KafkaPayload): Option[String] = {
+  def decodeValue(payload: KafkaPayload): Option[A] = {
 
-    import KafkaDsl._
+    import org.mkuthan.spark.kafka.KafkaDsl._
 
-    val decodedTry = Injection.invert[String, V](payload.value)
+    val decodedTry = Injection.invert[A, V](payload.value)
     decodedTry match {
       case Success(record) =>
         Some(record)
@@ -40,17 +43,16 @@ class KafkaPayloadStringCodec extends Serializable {
     }
   }
 
-  def encodeValue(value: String): KafkaPayload = {
+  def encodeValue(value: A): KafkaPayload = {
+    import org.mkuthan.spark.kafka.KafkaDsl._
 
-    import KafkaDsl._
-
-    val encoded = Injection[String, V](value)
+    val encoded = Injection[A, V](value)
     KafkaPayload(None, encoded)
   }
 
 }
 
-
-object KafkaPayloadStringCodec {
-  def apply(): KafkaPayloadStringCodec = new KafkaPayloadStringCodec
+object KafkaPayloadAvroSpecificCodec {
+  def apply[A <: SpecificRecordBase : ClassTag](): KafkaPayloadAvroSpecificCodec[A] =
+    new KafkaPayloadAvroSpecificCodec[A]
 }

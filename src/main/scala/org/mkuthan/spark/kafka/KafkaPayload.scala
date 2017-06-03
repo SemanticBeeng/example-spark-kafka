@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package org.mkuthan.spark
+package org.mkuthan.spark.kafka
 
-import KafkaDsl._
+import org.mkuthan.spark.kafka.KafkaDsl._
 case class KafkaPayload(key: Option[K], value: V)
