@@ -23,7 +23,7 @@ import org.mkuthan.spark.kafka.{KafkaPayload, KafkaProducerFactory}
 object LogHolder {
 
   // https://stackoverflow.com/a/30453662/4032515
-  @transient lazy val log = org.apache.log4j.Logger.getLogger("org.apache.spark")
+  @transient lazy val log = org.apache.log4j.Logger.getLogger("org.apache.kafka")
 }
 
 class KafkaDStreamSink(dstream: DStream[KafkaPayload]) {
